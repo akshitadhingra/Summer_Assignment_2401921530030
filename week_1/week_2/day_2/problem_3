@@ -1,1 +1,30 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> result;
+        
+        if (s.size() < p.size()) return result;
 
+        vector<int> cntP(26, 0), cntS(26, 0);
+
+        for (char c : p) cntP[c - 'a']++;
+
+        int k = p.size();
+
+        for (int i = 0; i < s.size(); i++) {
+            cntS[s[i] - 'a']++;
+
+            // Remove character that goes out of the window
+            if (i >= k) {
+                cntS[s[i - k] - 'a']--;
+            }
+
+            // Compare frequency arrays
+            if (cntS == cntP) {
+                result.push_back(i - k + 1);
+            }
+        }
+
+        return result;
+    }
+};
